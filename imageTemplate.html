@@ -1,0 +1,23 @@
+<!--<div class="row">-->
+    <!--<img class="col-xs-3" src="img/dog1.jpg">-->
+    <!--<img class="col-xs-3" src="img/dog2.jpg">-->
+    <!--<img class="col-xs-3" src="img/dog3.jpg">-->
+    <!--<img class="col-xs-3" src="img/dog1.jpg">-->
+<!--</div>-->
+
+<script id="imagesTemplate" type="text/x-handlebars-template">
+    <div class="entry">
+        <h1>{{title}}</h1>
+        <div class="body">
+            {{body}}
+        </div>
+    </div>
+</script>
+
+<script id="list" type="text/x-handlebars-template">
+    <ul>
+        {{#people}}
+        <li>{{name}}</li>
+        {{/people}}
+    </ul>
+</script>
