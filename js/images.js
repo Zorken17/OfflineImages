@@ -1,12 +1,15 @@
 images = {
     imageArray: [],
     init: function () {
-        $.get('img/',function (data) {
+
+        $.get("img/",function (data) {
             $(data).find("a:contains('.')").each(function (i) {
-                var src = this.href.replace(window.location.host, "").replace("http://", "");
+                var src = this.href.replace(window.location.host, "").replace("http://", "img");
                 images.imageArray.push(src);
             });
             images.loadTemplate();
+        }).catch(function (err) {
+            console.log(err)
         });
     },
 
@@ -17,7 +20,7 @@ images = {
     },
 
     fillTemplate: function () {
-        var templateScriptToRender = $("#images-template").html();     
+        var templateScriptToRender = $("#images-template").html();
         var img = [];
         var row = [];
 
@@ -32,7 +35,14 @@ images = {
         var wrapper = {rows: row}
         var template = Handlebars.compile(templateScriptToRender);
         $('#images').html(template(wrapper));
-        
+
+        images.selectImages();
+    },
+
+    selectImages: function () {
+        $('img').click(function () {
+            $(this).toggleClass('selected');
+        })
     }
 }
 
