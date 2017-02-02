@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+    <meta charset="utf-8" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pouchdb/6.1.1/pouchdb.js"></script>
+    <script src="app.js"></script>
+    <script src="appTest.js"></script>
+    <script type="text/javascript">
+        (function(document,navigator,standalone) {
+            // prevents links from apps from oppening in mobile safari
+            // this javascript must be the first script in your <head>
+            if ((standalone in navigator) && navigator[standalone]) {
+                var curnode, location=document.location, stop=/^(a|html)$/i;
+                document.addEventListener('click', function(e) {
+                    curnode=e.target;
+                    while (!(stop).test(curnode.nodeName)) {
+                        curnode=curnode.parentNode;
+                    }
+                    // Condidions to do this only on links to your own app
+                    // if you want all links, use if('href' in curnode) instead.
+                    if('href' in curnode && ( curnode.href.indexOf('http') || ~curnode.href.indexOf(location.host) ) ) {
+                        e.preventDefault();
+                        location.href = curnode.href;
+                    }
+                },false);
+            }
+        })(document,window.navigator,'standalone');
+    </script>
+</head>
+<body>
+    <!--<input id="files" type="file" multiple="multiple" onchange="getBase644(this.files)" />-->
+<!--<div id="img"></div>
+
+<input type="file" onchange="previewFile()"><br>
+<img src="" height="200" alt="Image preview...">-->
+    <h2>This is Test.html</h2>
+    <label id="info"></label><br />
+    <label id="finish"></label><br /><br />
+
+    <!--<input id="browse" type="file" onchange="previewFiles()" multiple>
+    <div id="preview"></div>-->
+
+    <button id="addImgToDom" type="button" onclick="addImgToDom()">Add img To DOM</button>
+    <button id="deletebt" type="button" onclick="deleteDb()">Delete DB</button>
+    <button id="getDb" type="button" onclick="getDb()">Get DB Log</button>
+    <button id="save" type="button" onclick="save()">Save</button>
+<button id="getAllImg" type="button" onclick="getAllImg()">Get img</button>
+    
+    <br />
+    <br />
+    <a href="index.html">index.html</a>
+<div id="img"></div>
+    <div id="temp">
+        <!--<img src="img/0.jpg" />
+        <img src="img/1.jpg" />
+        <img src="img/2.jpg" />-->
+        <!--<img src="img/3.jpg" />-->
+        <!--<img src="img/4.jpg" />
+        <img src="img/5.jpg" />
+        <img src="img/6.jpg" />-->
+        <!--<img src="img/7.jpg" />-->
+    </div>
+
+
+    
+    <br />
+<br />
+
+</body>
+</html>

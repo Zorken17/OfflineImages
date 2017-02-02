@@ -1,0 +1,18 @@
+<script id="images-template" type="text/x-handlebars-template">
+    {{#each rows}}
+    <div class="row">
+        {{#each images}}
+        <img class="col-xs-3" src="{{src}}">
+        {{/each}}
+    </div>
+    {{/each}}
+
+</script>
+
+<script id="list" type="text/x-handlebars-template">
+    <ul>
+        {{#people}}
+        <li>{{name}}</li>
+        {{/people}}
+    </ul>
+</script>
