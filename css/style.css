@@ -1,3 +1,13 @@
+h1 {
+    font: 36px/1 sans-serif;
+    margin: 0 0 1em 0;
+    font-weight: bold;
+}
+
+#btnSaveData {
+    margin: 3em 0 2.5em 0;
+}
+
 span.darken {
     background: black;
     background-clip: content-box;
@@ -6,7 +16,6 @@ span.darken {
 span.darken img {
     padding-left: 0;
     padding-right: 0;
-
     -webkit-transition: all 0.5s linear;
     -moz-transition: all 0.5s linear;
     -ms-transition: all 0.5s linear;
@@ -14,7 +23,15 @@ span.darken img {
     transition: all 0.5s linear;
 }
 
-span.darken:hover img, img.selected {
+img.selected {
     opacity: 0.7;
     cursor: pointer;
+}
+
+
+@media screen and (min-width: 720px) {
+    span.darken:hover img, img.selected {
+        opacity: 0.7;
+        cursor: pointer;
+    }
 }
