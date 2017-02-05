@@ -18,7 +18,8 @@ images = {
                     images.loadTemplate(images.imageArray);
                     images.saveImages();
                 }).catch(function(err) {
-                console.log(err)
+                console.log('$.get(): ',err);
+                database.loadFromDb()
             });
         }
         catch(err) {

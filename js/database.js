@@ -33,7 +33,10 @@ database = {
         database.db.put(imgDb).then(function (result) {
             var bar = $('.progress-bar');
 
-            bar.css("width", images.takenSteps + "%").html(database.indexSteps++ + "/" + numberOfImages);
+            bar.css({
+                width: images.takenSteps + "%",
+            }).html(database.indexSteps++ + "/" + numberOfImages)
+                .closest('.progress').show();
 
             images.takenSteps += images.step;
 
