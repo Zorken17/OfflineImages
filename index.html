@@ -1,8 +1,13 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" manifest="offline.manifest">
+
 <head>
+    <!--<html lang="en-us" manifest="offline.manifest">-->
+
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
 
     <title>Offline Images</title>
 
@@ -12,12 +17,42 @@
     <link rel="stylesheet" href="css/style.css">
 
     <!-- SCRIPT -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pouchdb/6.1.1/pouchdb.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
-    <script src="js/images.js"></script>
+    <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
+    <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pouchdb/6.1.1/pouchdb.min.js"></script>-->
+    <!--<script type="text/javascript" src="js/bootstrap.js"></script>-->
+    <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>-->
+    <!--<script src="js/images.js"></script>-->
+    <!--<script src="js/database.js"></script>-->
 
+    <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="js/pouchdb-6.1.1.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/handlebars-v4.0.5.js"></script>
+    <script type="text/javascript" src="js/images.js"></script>
+    <script type="text/javascript" src="js/database.js"></script>
+
+
+    <script type="text/javascript">
+        (function (document, navigator, standalone) {
+            // prevents links from apps from oppening in mobile safari
+            // this javascript must be the first script in your <head>
+            if ((standalone in navigator) && navigator[standalone]) {
+                var curnode, location = document.location, stop = /^(a|html)$/i;
+                document.addEventListener('click', function (e) {
+                    curnode = e.target;
+                    while (!(stop).test(curnode.nodeName)) {
+                        curnode = curnode.parentNode;
+                    }
+                    // Condidions to do this only on links to your own app
+                    // if you want all links, use if('href' in curnode) instead.
+                    if ('href' in curnode && (curnode.href.indexOf('http') || ~curnode.href.indexOf(location.host))) {
+                        e.preventDefault();
+                        location.href = curnode.href;
+                    }
+                }, false);
+            }
+        })(document, window.navigator, 'standalone');
+    </script>
 </head>
 <body>
 
@@ -45,7 +80,12 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        images.init();
+        if (!navigator.onLine) {
+            database.loadFromDb()
+        } else {
+            database.init();
+            images.init();
+        }
     });
 </script>
 </body>

@@ -1,0 +1,20 @@
+CACHE MANIFEST
+# manifest version 1.0.3
+
+CACHE:
+css/style.css
+css/bootstrap.css
+css/bootstrap-theme.css
+
+index.html
+templates/images.html
+
+js/bootstrap.js
+js/database.js
+js/handlebars-v4.0.5.js
+js/images.js
+js/jquery-3.1.1.min.js
+js/pouchdb-6.1.1.min.js
+
+NETWORK:
+*

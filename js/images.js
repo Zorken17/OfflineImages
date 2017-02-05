@@ -3,37 +3,46 @@ images = {
     takenSteps: null,
     step: null,
     imageArray: [],
-    db : new PouchDB({ name: 'imgDb', size: 50 }),
-    
+
     init: function () {
-        $.get("../planogram/",
-            function(data) {
-                $(data).find("a:contains('.')").each(function(i) {
-                    var src = this.href.replace(window.location.host, "").replace("http://", "");
-                    images.imageArray.push(src);
-                });
-                images.loadTemplate();
-                images.saveImages();
-            }).catch(function(err) {
-            console.log(err)
-        });
+        console.log("images.js")
+
+        try {
+            $.get("planogram/",
+                function(data) {
+                    $(data).find("a:contains('.')").each(function(i) {
+                        var src = this.href.replace(window.location.host, "").replace("http://", "planogram");
+                        //console.log(src);
+                        images.imageArray.push(src);
+                    });
+                    images.loadTemplate(images.imageArray);
+                    images.saveImages();
+                }).catch(function(err) {
+                console.log(err)
+            });
+        }
+        catch(err) {
+            console.log('$.get(): ',err.message);
+        }
+
+
     },
 
-    loadTemplate: function() {
+    loadTemplate: function(srcArray) {
         $('#images').load('templates/images.html',
             function() {
-                images.fillTemplate();
+                images.fillTemplate(srcArray);
             });
     },
 
-    fillTemplate: function() {
+    fillTemplate: function(srcArray) {
         var templateScriptToRender = $("#images-template").html();
         var img = [];
         var row = [];
 
-        images.imageArray.forEach(function(item, i) {
+        srcArray.forEach(function(item, i) {
             img.push({ src: item });
-            if ((i + 1) % 4 === 0 || i === images.imageArray.length - 1) {
+            if ((i + 1) % 4 === 0 || i === srcArray.length - 1) {
                 row.push({ images: img });
                 img = [];
             }
@@ -100,7 +109,7 @@ images = {
 
                 if (_this.hasClass('selected') || saveAll) {
                     images.getDataUrl(_this.attr('src')).done(function (data) {
-                        images.saveImgToDb(data, numberOfImages).done(function () {
+                        database.saveImgToDb(data, numberOfImages).done(function () {
                             console.log('Klar');
                             rec(++i);
                         }).catch(function (err) {
@@ -114,19 +123,8 @@ images = {
                 }
             })(0);
 
-            //$('img').each(function() {
-            //    if ($(this).hasClass('selected') || saveAll) {
-            //        images.getDataUrl(this.src).done(function(data) {
-            //            images.saveImgToDb(data).done(function() {
-            //                console.log('Klar');
-            //            }).catch(function (err) {
-            //                console.log("Error: ", err);
-            //            });
-            //        }).catch(function(err) {
-            //            console.log("Error: ", err);
-            //        });
-            //    }
-            //});
+            //$(this).unbind( "click" );
+            //$(this).unbind( "click" );
         });
     },
 
@@ -137,7 +135,7 @@ images = {
         image.onload = function() {
             var canvas = document.createElement('canvas');
             canvas.width = this.naturalWidth;
-            canvas.height = this.naturalWidth;
+            canvas.height = this.naturalHeight;
             canvas.getContext('2d').drawImage(this, 0, 0);
             //console.log('Första');
             dfd.resolve(canvas.toDataURL('image/jpeg'));
@@ -151,34 +149,6 @@ images = {
         images.step = 100 / numberOfImages;
         console.log('Share: ', images.step);
         return images.step;
-    },
-
-    indexSteps: 1,
-    saveImgToDb: function (data, numberOfImages) {
-        var dfd = $.Deferred();
-
-        var imgDb = {
-            _id: new Date().toISOString(),
-            src: data
-        }
-
-        images.db.put(imgDb).then(function (result) {
-            //console.log(result);
-            //console.log('Andra');
-
-            var bar = $('.progress-bar');
-
-            bar.css("width", images.takenSteps + "%").html(images.indexSteps++ + "/" + numberOfImages);
-            //$('.progress-bar').css('width', images.takenSteps++ + '%').attr('aria-valuenow', images.takenSteps).text(images.takenSteps + " %");
-            //$('#info').text('Successfully saved no of img: ' + index++);
-            console.log(images.takenSteps);
-            images.takenSteps += images.step;
-            dfd.resolve();
-        }).catch(function (err) {
-            $('#finish').text(err);
-        });
-
-        return dfd.promise();
     }
 }
 
